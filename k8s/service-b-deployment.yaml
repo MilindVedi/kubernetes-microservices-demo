@@ -1,0 +1,20 @@
+apiVersion: apps/v1              # Kubernetes Deployments API version
+kind: Deployment                 # Resource type - manages Pods
+metadata:
+  name: service-b                # Unique name of this Deployment
+spec:
+  replicas: 1                    # Number of Pod copies to run
+  selector:
+    matchLabels:
+      app: service-b             # Find & manage Pods with this label
+  template:                      # Pod template/blueprint
+    metadata:
+      labels:
+        app: service-b           # Label each Pod created from this template
+    spec:                        # Pod specification (what runs inside)
+      containers:
+      - name: service-b          # Container name
+        image: service-b:latest  # Docker image to run
+        imagePullPolicy: Never   # Use local image only, don't pull from registry
+        ports:
+        - containerPort: 3000    # Port the app listens on inside container
