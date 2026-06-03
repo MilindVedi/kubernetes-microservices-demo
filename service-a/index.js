@@ -6,6 +6,12 @@ const axios = require('axios');      // HTTP client for making requests to other
 
 const app = express();
 
+// GET /health - Lightweight health check that does NOT call service-b
+// Used by Kubernetes liveness/readiness/startup probes
+app.get('/health', (req, res) => {
+    res.json({ status: 'ok' });
+});
+
 // GET /hello - Main endpoint that combines data from Service A and Service B
 // When a user hits this endpoint, Service A calls Service B internally
 app.get('/hello', async (req, res) => {
