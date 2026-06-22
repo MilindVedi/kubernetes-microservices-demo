@@ -1,15 +1,3 @@
-# Branch Summary: feature/azure-appgw-internal-ingress-flow
-
-## Overview
-
-This branch contains the complete, production-ready architecture for exposing Kubernetes microservices through Azure Application Gateway with internal NGINX Ingress Controller.
-
-**Branch Name:** `feature/azure-appgw-internal-ingress-flow`
-
-**Created From:** `main`
-
----
-
 ## What Changed
 
 ### Architecture Migration

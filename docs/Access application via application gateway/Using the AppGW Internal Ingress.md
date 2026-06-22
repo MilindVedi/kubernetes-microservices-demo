@@ -1,8 +1,7 @@
-# Next Steps: Using the AppGW Internal Ingress Flow Branch
+# Next Steps: Using the AppGW Internal Ingress Flow
 
 ## You Are Here
 
-✅ Branch created: `feature/azure-appgw-internal-ingress-flow`
 ✅ All YAML files updated for AppGW flow
 ✅ Comprehensive documentation written
 ✅ Ready for deployment
