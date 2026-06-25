@@ -1,0 +1,63 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: learning-cronjob
+spec:
+  # 1. SCHEDULE (Required)
+  # Determines when the job runs. Standard Cron format.
+  # Format: "Minute Hour Day-of-Month Month Day-of-Week"
+  # "*/1 * * * *" means run every 1 minute.
+  schedule: "*/1 * * * *"
+  
+  # 2. HISTORY LIMITS (Optional)
+  # How many finished job pods to keep around so you can read their logs.
+  successfulJobsHistoryLimit: 3  # Keeps the last 3 successful runs
+  failedJobsHistoryLimit: 1      # Keeps the last 1 failed run
+  
+  # 3. CONCURRENCY POLICY (Optional)
+  # What to do if the next scheduled time arrives but the previous job is STILL running?
+  # - Allow (default): Run them both at the same time.
+  # - Forbid: Skip the new run. Let the old one finish.
+  # - Replace: Kill the old running job and start the new one.
+  concurrencyPolicy: Allow
+  
+  # 4. STARTING DEADLINE (Optional)
+  # If the job misses its start time (e.g., node was down), how many seconds
+  # does it have to start late before Kubernetes just skips it?
+  startingDeadlineSeconds: 30
+  
+  # 5. SUSPEND (Optional)
+  # Change to `true` to pause future schedules without deleting the CronJob.
+  suspend: true
+  
+  # 6. THE ACTUAL JOB BLUEPRINT
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: hello-cron
+            image: busybox:1.36
+            imagePullPolicy: IfNotPresent
+            # The command the container will run before exiting.
+            command:
+            - /bin/sh
+            - -c
+            - |
+              echo "======================================"
+              echo "🚀 Starting Learning CronJob Execution"
+              echo "======================================"
+              echo "Current Time: $(date)"
+              echo "Simulating some work..."
+              for i in 1 2 3 4 5; do
+                echo "Processing batch item $i/5"
+                sleep 2
+              done
+              echo "✅ Job completed successfully!"
+              echo "======================================"
+          
+          # 7. RESTART POLICY (Required for Jobs)
+          # Unlike Deployments (which use Always), Jobs must use OnFailure or Never.
+          # - OnFailure: If container crashes, restart container in same pod.
+          # - Never: If container crashes, create a brand new pod.
+          restartPolicy: OnFailure

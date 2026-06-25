@@ -1,0 +1,10 @@
+{
+  "name": "node-cron",
+  "version": "1.0.0",
+  "description": "A simple Node.js script for a Kubernetes CronJob",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {}
+}

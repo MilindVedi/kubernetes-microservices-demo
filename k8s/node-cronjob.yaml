@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: node-cronjob
+spec:
+  # Run every 3 minutes
+  schedule: "*/3 * * * *"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+  concurrencyPolicy: Forbid
+  suspend: true
+  
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: node-cron
+            image: my-node-cron:v1
+            
+            # Again, CRITICAL for Minikube
+            imagePullPolicy: Never
+            
+          restartPolicy: OnFailure

@@ -1,0 +1,30 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: custom-image-cronjob
+spec:
+  # Run every 2 minutes so it's less spammy than the previous one
+  schedule: "*/2 * * * *"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+  concurrencyPolicy: Forbid
+  suspend: true
+  
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: custom-cron
+            image: my-custom-cron:v1
+            
+            # CRITICAL FOR LOCAL MINIKUBE DEVELOPMENT!
+            # Since we are building the image locally and not pushing to Docker Hub,
+            # we must tell Kubernetes "Never try to pull this from the internet, 
+            # just use the one you already have locally."
+            imagePullPolicy: Never
+            
+            # Notice there is NO 'command' field here!
+            # The container knows exactly what to do because of the Dockerfile CMD.
+            
+          restartPolicy: OnFailure
